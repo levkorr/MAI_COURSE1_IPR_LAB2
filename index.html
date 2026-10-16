@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPR Docker Lab</title>
+    <style>
+        body {
+            background: #eaf2ff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 50px 15px;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 5px 20px #0002;
+        }
+        h1 { color: #2563eb; }
+        button {
+            background: #2563eb;
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        pre {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Моя лабораторная по ИПР</h1>
+        <h2>Docker + Nginx + Compose</h2>
+
+        <p><b>ФИО:</b> Королев Лев Игоревич</p>
+        <p><b>GitHub:</b> https://github.com/levkorr</p>
+        <p><b>Docker Hub:</b> https://hub.docker.com/u/levkorr</p>
+
+        <hr>
+
+        <h3>Проверка API</h3>
+        <button onclick="checkApi()">
+            Отправить запрос к API
+        </button>
+
+        <pre id="result">Нажми кнопку для проверки</pre>
+    </div>
+
+    <script>
+        async function checkApi() {
+            const output = document.getElementById("result");
+
+            try {
+                const response = await fetch("/whoami");
+                if (!response.ok) {
+                    throw new Error("HTTP " + response.status);
+                }
+
+                const data = await response.json();
+                output.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                output.textContent =
+                    "API доступен после запуска Docker Compose. " +
+                    error.message;
+            }
+        }
+    </script>
+</body>
+</html>
